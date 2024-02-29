@@ -1,0 +1,43 @@
+def print_maze(maze):
+    for row in maze:
+        print("".join(row))
+
+def solve_maze(maze, start, end):
+    if start == end:
+        return True
+    if maze[start[0]][start[1]] == "#" or maze[start[0]][start[1]] == "X":
+        return False
+
+    maze[start[0]][start[1]] = "X"
+
+    if (start[0] < len(maze) - 1 and solve_maze(maze, (start[0] + 1, start[1]), end)) or \
+       (start[1] < len(maze[0]) - 1 and solve_maze(maze, (start[0], start[1] + 1), end)) or \
+       (start[0] > 0 and solve_maze(maze, (start[0] - 1, start[1]), end)) or \
+       (start[1] > 0 and solve_maze(maze, (start[0], start[1] - 1), end)):
+        return True
+
+    maze[start[0]][start[1]] = "."
+
+    return False
+
+maze = [
+    ["#", "#", "#", "#", "#", "#", "#"],
+    ["#", ".", ".", ".", ".", ".", "#"],
+    ["#", ".", "#", "#", "#", ".", "#"],
+    ["#", ".", ".", ".", "#", ".", "#"],
+    ["#", "#", "#", ".", "#", ".", "#"],
+    ["#", ".", ".", ".", "#", ".", "#"],
+    ["#", "#", "#", "#", "#", "#", "#"]
+]
+
+start = (1, 1)
+end = (5, 5)
+
+print("Original Maze:")
+print_maze(maze)
+
+if solve_maze(maze, start, end):
+    print("\nSolution found:")
+    print_maze(maze)
+else:
+    print("\nNo solution found.")
